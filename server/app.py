@@ -87,13 +87,59 @@ def song(id):
       200
       )
   elif request.method == "DELETE":
-    db.session.delete(playlist)
+    db.session.delete(song)
     db.session.commit()
     return make_response(
       {},
       204
     )
   
+
+#PLAYLIST_SONGS ROUTES
+@app.route("/api/playlist_songs", methods=["GET", "POST"])
+def playlist_songs():
+  if request.method == "GET":
+    pss = [ps.to_dict() for ps in PlaylistSong.query.all()]
+    return make_response(
+      pss,
+      200
+      )
+  elif request.method == "POST":
+    data = request.get_json()
+    vibe = data.get('vibe')
+    playlist_id = data.get('playlist_id')
+    song_id = data.get('song_id')
+    ps = PlaylistSong(vibe=vibe, playlist_id=playlist_id, song_id=song_id)
+    db.session.add(ps)
+    db.session.commit()
+    return make_response(ps.to_dict(), 201)
+  
+@app.route("/api/playlist_song/<int:id>", methods=["GET", "PATCH", "DELETE"])
+def playlist_song(id):
+  ps = PlaylistSong.query.filter(PlaylistSong.id == id).first()
+  if request.method == "GET":
+    return make_response(
+      ps.to_dict(),
+      200
+    )
+  elif request.method == "PATCH":
+    data = request.get_json()
+    for key in data.keys():
+      if hasattr(ps, key):
+        setattr(ps, key, data[key])
+    db.session.add(ps)
+    db.session.commit()
+    return make_response(
+      ps.to_dict(), 
+      200
+      )
+  elif request.method == "DELETE":
+    db.session.delete(ps)
+    db.session.commit()
+    return make_response(
+      {},
+      204
+    )
 
 
 if __name__ == "__main__":
