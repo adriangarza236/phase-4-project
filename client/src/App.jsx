@@ -1,18 +1,49 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import LandingPage from './LandingPage'
+import Navbar from './Navbar'
+import { Routes, Route, useNavigate} from 'react-router-dom'
+import PlaylistForm from './PlaylistForm'
+import SongForm from './SongForm'
+import Playlists from './Playlists'
+import Songs from './Songs'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [movies, setMovies] = useState([])
+  // const navigate = useNavigate()
+
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/movies")
+  //     .then(resp => resp.json())
+  //     .then(data => setMovies(data))
+  // }, [])
+
+  // const handleAddMovie = (newMovie) => {
+  //   fetch("http://localhost:3000/movies",{
+  //     method: "POST",
+  //     headers: { "Content-Type": "Application/json"},
+  //     body: JSON.stringify(newMovie)})
+    
+  // .then((response) => response.json())
+  // .then((addedMovie) => {
+  //   setMovies((movies) => [...movies, addedMovie])
+  //   navigate("movie/movie-list")
+  // })};
+
+
+
+
 
   return (
     <>
-    <Routes>
-     <div>
-      <p>
-        Check out this super sweet P tag, I mean it probably looks like a paragraph on a blank page but its pretty sweet in my opinion. Here is probably where we should put our routes, idk why but that seems like a good idea to me tbh. Anyway, im gonna go eat some mints and drink and ice cold water.......just to FEEEEL something.......happy coding
-      </p>
-     </div>
-     </Routes>
+      <Navbar />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/playlist-form" element={<PlaylistForm />} />
+          <Route path="/playlists" element={<Playlists />} />
+          <Route path="/song-form" element={<SongForm />} />
+          <Route path="/songs" element={<Songs />} />
+        </Routes>
     </>
   )
 }
