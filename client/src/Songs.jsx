@@ -10,6 +10,9 @@ const Songs = () => {
       .then((data) => setSongs(data)) 
   }, []);
 
+
+// console.log(songs.playlist_songs.vibe)
+
   return (
     <div>
       <h2>🎵 Song List</h2>
@@ -17,7 +20,7 @@ const Songs = () => {
         {songs.length > 0 ? (
           songs.map((song) => (
             <li key={song.id}>
-              {song.title} - {song.artist} - {song.playlist_songs.vibe} - <img src={song.album_cover} alt="Album Cover" />
+              {song.title} - {song.artist} - <img src={song.album_cover} alt="Album Cover" />
             </li>
           ))
         ) : (
