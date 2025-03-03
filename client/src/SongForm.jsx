@@ -4,28 +4,29 @@ import { useEffect, useState } from 'react'
 import React from 'react'
 
 const SongForm = () => {
-  const [formData, setFormData] = useState({
-    albumCover: "",
-    title: "",
+  const initialValues = {
+    album_cover: "",
+    title: "", 
     artist: "",
     album: ""
-  });
+  }
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const validationSchema = yup.object({
+    album_cover: yup.string().url("Must be A valid URL").required("Album Cover Required"),
+    title: yup.string().required("A Title is required"),
+    artist: yup.string().required("An Artist is required"),
+    album: yup.string().required("An Album is required")
+  })
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (values) => {
     const newSong = {
-      title: formData.title,
-      artist: formData.artist,
-      album_cover: formData.albumCover,
-      album: formData.album
-    };
+      album_cover: values.album_cover,
+      title: values.title,
+      artist: values.artist,
+      album: values.album
+    }
 
-    fetch("http://127.0.0.1:5555/api/songs", {
+    fetch("/api/songs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newSong)
@@ -33,50 +34,69 @@ const SongForm = () => {
     .then((response) => response.json())
     .then((addedSong) => {
       console.log("Song added:", addedSong);
-      setFormData({ albumCover: "", title: "", artist: "", album: ""});
+      formik.resetForm();
     })
-  };
+  }
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    validateOnChange: false,
+    onSubmit: handleSubmit
+  })
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Album Cover:
-        <input 
-          type="text" 
-          name="albumCover"
-          value={formData.albumCover}
-          onChange={handleChange} 
-        />
-      </label>
-      <label>
-        Title:
-        <input 
-          type="text" 
-          name="title"
-          value={formData.title} 
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Artist:
-        <input 
-          type="text" 
-          name="artist"
-          value={formData.artist} 
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Album:
-        <input 
-          type="text" 
-          name="album"
-          value={formData.album} 
-          onChange={handleChange}
-        />
-      </label>
+    <div>
+    <h1>This DO be the song form.....stoooopid ahhhhhhhh song form</h1>
+    <form onSubmit={formik.handleSubmit}>
+      <div>
+        <label>
+          Album Cover:
+          <input 
+            type="text" 
+            name="album_cover"
+            value={formik.values.album_cover}
+            onChange={formik.handleChange} 
+          />
+        </label>
+        <p style={{color: "red"}}>{formik.errors.album_cover}</p>
+      </div>
+      <div>
+        <label>
+          Title:
+          <input 
+            type="text" 
+            name="title"
+            value={formik.values.title} 
+            onChange={formik.handleChange}/>
+        </label>
+        <p style={{color: "red"}}>{formik.errors.title}</p>
+      </div>
+      <div>
+        <label>
+          Artist:
+          <input 
+            type="text" 
+            name="artist"
+            value={formik.values.artist} 
+            onChange={formik.handleChange}/>
+        </label>
+        <p style={{color: "red"}}>{formik.errors.artist}</p>
+      </div>
+      <div>
+        <label>
+          Album:
+          <input 
+            type="text" 
+            name="album"
+            value={formik.values.album} 
+            onChange={formik.handleChange}/>
+        </label>
+        <p style={{color: "red"}}>{formik.errors.album}</p>
+      </div>
       <button type="submit">Add song!</button>
     </form>
+    </div>
   );
 };
 
