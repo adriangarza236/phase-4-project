@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import PlaylistCard from './PlaylistCard';
 
 const Playlists = () => {
   const [playlists, setPlaylists] = useState([]); 
@@ -9,27 +11,12 @@ const Playlists = () => {
       .then((data) => setPlaylists(data)) 
   }, []);
 
+  const playlistsCards = playlists.map(playlist => <PlaylistCard key={playlist.id} playlist={playlist} />);
+
   return (
     <div>
       <h2>🎵 Playlists</h2>
-      <ul>
-        {playlists.length > 0 ? (
-          playlists.map((playlist) => (
-            <li key={playlist.id}>
-              {playlist.name}
-              <ul>
-                {playlist.songs.map((song) => (
-                  <li key={song.id}>
-                    {song.title} - {song.artist} - <img src={song.album_cover} alt="Album Cover" />
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))
-        ) : (
-          <p>Loading playlists...</p>
-        )}
-      </ul>
+        {playlistsCards}
     </div>
   );
 };
