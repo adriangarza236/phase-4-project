@@ -1,2 +1,2 @@
 .env
-./server/instance/app.db
+server/instance/app.db
