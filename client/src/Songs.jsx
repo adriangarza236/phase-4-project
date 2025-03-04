@@ -1,14 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 
-const Songs = () => {
-  const [songs, setSongs] = useState([]); 
+const Songs = ({ songs }) => {
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5555/api/songs") 
-      .then((response) => response.json()) 
-      .then((data) => setSongs(data)) 
-  }, []);
 
 
 // console.log(songs.playlist_songs.vibe)
