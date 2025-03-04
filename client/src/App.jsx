@@ -19,7 +19,7 @@ function App() {
     fetch("/api/playlists") 
       .then((response) => response.json()) 
       .then((data) => setPlaylists(data)) 
-  }, []);
+  }, [playlists]);
 
     useEffect(() => {
       fetch("/api/songs") 
