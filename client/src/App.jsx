@@ -6,6 +6,7 @@ import PlaylistForm from './PlaylistForm'
 import SongForm from './SongForm'
 import Playlists from './Playlists'
 import Songs from './Songs'
+import PlaylistEditForm from './PlaylistEditForm'
 
 
 function App() {
@@ -67,6 +68,11 @@ function App() {
     setPlaylists(updatedPlaylists)
   }
 
+  const editPlaylist = updtplaylist => {
+    const updatedPlaylists = playlists.map(playlist => updtplaylist.id === playlist.id ? updtplaylist : playlist)
+    setPlaylists(updatedPlaylists)
+  }
+
 
 
   return (
@@ -75,7 +81,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/playlist-form" element={<PlaylistForm />} />
-          <Route path="/playlists" element={<Playlists playlists={playlists} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
+          <Route path="/playlists" element={<Playlists playlists={playlists} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
           <Route path="/song-form" element={<SongForm />} />
           <Route path="/songs" element={<Songs songs={songs} />} />
         </Routes>
