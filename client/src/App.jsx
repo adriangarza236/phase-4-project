@@ -6,7 +6,6 @@ import PlaylistForm from './PlaylistForm'
 import SongForm from './SongForm'
 import Playlists from './Playlists'
 import Songs from './Songs'
-import PlaylistEditForm from './PlaylistEditForm'
 
 
 function App() {
@@ -19,13 +18,18 @@ function App() {
     fetch("/api/playlists") 
       .then((response) => response.json()) 
       .then((data) => setPlaylists(data)) 
-  }, [playlists]);
+  }, []);
 
-    useEffect(() => {
-      fetch("/api/songs") 
-        .then((response) => response.json()) 
-        .then((data) => setSongs(data)) 
-    }, [songs]);
+  useEffect(() => {
+    fetch("/api/songs") 
+      .then((response) => response.json()) 
+      .then((data) => setSongs(data)) 
+  }, []);
+
+  const addPlaylist = playlist => {
+    setPlaylists([...playlists, playlist])
+  }
+
   
   const deletePlaylistSong = playlistSong => {
     deletePlaylistSongForSong(playlistSong)
@@ -85,8 +89,8 @@ function App() {
       <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/playlist-form" element={<PlaylistForm />} />
-          <Route path="/playlists" element={<Playlists playlists={playlists} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
+          <Route path="/playlist-form" element={<PlaylistForm addPlaylist={addPlaylist}/>} />
+          <Route path="/playlists" element={<Playlists playlists={playlists} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
           <Route path="/song-form" element={<SongForm />} />
           <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
         </Routes>
