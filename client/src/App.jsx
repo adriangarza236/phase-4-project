@@ -24,28 +24,8 @@ function App() {
       fetch("/api/songs") 
         .then((response) => response.json()) 
         .then((data) => setSongs(data)) 
-    }, []);
+    }, [songs]);
   
-  // const [movies, setMovies] = useState([])
-  // const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/movies")
-  //     .then(resp => resp.json())
-  //     .then(data => setMovies(data))
-  // }, [])
-
-  // const handleAddMovie = (newMovie) => {
-  //   fetch("http://localhost:3000/movies",{
-  //     method: "POST",
-  //     headers: { "Content-Type": "Application/json"},
-  //     body: JSON.stringify(newMovie)})
-    
-  // .then((response) => response.json())
-  // .then((addedMovie) => {
-  //   setMovies((movies) => [...movies, addedMovie])
-  //   navigate("movie/movie-list")
-  // })};
   const deletePlaylistSong = playlistSong => {
     deletePlaylistSongForSong(playlistSong)
   }
