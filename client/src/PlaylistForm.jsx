@@ -1,61 +1,55 @@
-import React, { useState } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-//#TODO formik and yup for form validation
+import React from 'react'
 
-function PlaylistForm() {
-const [formData, setFormData] = useState({
-  albumCover: "",
-  title: "",
-  album: "",
-  vibe: "",
-})
-console.log(formData)
-
-
-
-const handleChange = (event) => {
-  const {name, value} = event.target
-  setFormData({...formData, [name]: value})
-}
-
-
-const handleSubmit = (event) => {
-  event.preventDefault();
-    const newMovie = {
-      title: formData.title,
-      image: formData.image,
-      director: formData.director,
-      rating: formData.rating
-    };
-    handlePlaylistForm(newMovie);
-    setFormData({ title: "", image: "", director: "", rating: "" });
+const PlaylistForm = ({ addPlaylist }) => {
+  const initialValues = {
+    name: ""
   }
 
+  const validationSchema = yup.object({
+    name: yup.string().required("Playlist must have a name")
+  })
+
+  const handleSubmit = async values => {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values)
+    }
+    const resp = await fetch("/api/playlists", options)
+    const data = await resp.json()
+    addPlaylist(data)
+    formik.resetForm()
+  }
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    validateOnChange: false,
+    onSubmit: handleSubmit
+  })
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Playlist Cover:
-        <input 
-        type="text" 
-        name="image"
-        value={formData.image}
-        onChange={handleChange} />
-      </label>
-      <label>
-        Title:
-        <input 
-        type="text" 
-        name="title"
-        value={formData.title} 
-        onChange={handleChange}/>
-      </label>
-      
-     
-      <button type="submit">Create Playlist!</button>
-    </form>
-  )
-}
+    <div>
+      <h1>Create Playlist</h1>
+      <form onSubmit={formik.handleSubmit}>
+        <div>
+          <label>
+            Name:
+            <input 
+              type="text" 
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange} 
+            />
+          </label>
+          <p style={{color: "red"}}>{formik.errors.name}</p>
+        </div>
+        <input type="submit" value="Create Playlist" />
+      </form>
+    </div>
+  );
+};
 
-export default PlaylistForm
+export default PlaylistForm;

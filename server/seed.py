@@ -26,10 +26,10 @@ with app.app_context():
   db.session.commit()
 
   print("Creating PlaylistSong...")
-  workout_song_1 = PlaylistSong(vibe="epic", song_id=trooper.id, playlist_id=workout.id)
-  workout_song_2 =  PlaylistSong(vibe="hype", song_id=final.id, playlist_id=workout.id)
-  motivate_song_1 =  PlaylistSong(vibe="sad", song_id=shake.id, playlist_id=motivate.id)
-  motivate_song_2 =  PlaylistSong(vibe="happy", song_id=final.id, playlist_id=motivate.id)
+  workout_song_1 = PlaylistSong(vibe="Happy", song_id=trooper.id, playlist_id=workout.id)
+  workout_song_2 =  PlaylistSong(song_id=final.id, playlist_id=workout.id)
+  motivate_song_1 =  PlaylistSong(vibe="Sad", song_id=shake.id, playlist_id=motivate.id)
+  motivate_song_2 =  PlaylistSong(vibe="Upset", song_id=final.id, playlist_id=motivate.id)
 
   db.session.add_all([workout_song_1, workout_song_2, motivate_song_1, motivate_song_2])
   db.session.commit()

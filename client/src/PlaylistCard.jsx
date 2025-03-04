@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import PlaylistEditForm from './PlaylistEditForm'
+import PlaylistSongCreateForm from './PlaylistSongCreateForm'
 
-const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist }) => {
+const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlaylist, addPlaylistSong }) => {
     const [isEditing, setIsEditing] = useState(false)
 
-    const playlist_song = playlist.playlist_songs.find(ps => ps.playlist_id == playlist.id)
-
-    const handleRemoveSong = async (e) => {
+    const handleRemoveSong = async (e, playlist_song) => {
         e.preventDefault()
         
         if (playlist_song) {
@@ -23,24 +22,27 @@ const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist }) => {
         }
     }
     const handleEdit = async (e) => {
-        e.preventDefault()
-        setIsEditing(!false)
+        if (e) e.preventDefault()
+        setIsEditing(!isEditing)
     }
-
 
     return (
         <div>
             <h3>{playlist.name}</h3>
             <button onClick={handleDeletePlaylist} >Delete</button>
             <button onClick={handleEdit} >Edit</button>
-            {isEditing && <PlaylistEditForm />}
+            {isEditing && <PlaylistEditForm playlist={playlist} editPlaylist={editPlaylist} handleEdit={handleEdit} />}
             <ul>
-                {playlist.songs.map((song) => (
-                    <li key={song.id}>
-                        {song.title} - {song.artist} - {playlist_song?.vibe} - <img src={song.album_cover} alt="Album Cover" />
-                        <button onClick={handleRemoveSong} >Remove</button>
-                    </li>
-                ))}
+                {playlist.songs.map((song) => {
+                    const playlist_song = playlist.playlist_songs.find(ps => ps.song_id === song.id)
+                    const vibe = playlist_song.vibe ? playlist_song.vibe : <PlaylistSongCreateForm playlist={playlist} addPlaylistSong={addPlaylistSong} playlist_song={playlist_song}/>
+                    return (
+                        <li key={song.id}>
+                            {song.title} - {song.artist} - {vibe} - <img src={song.album_cover} alt="Album Cover" />
+                            <button onClick={(e) => handleRemoveSong(e, playlist_song)} >Remove</button>
+                        </li>
+                    )
+                })}
             </ul>
         </div>
     )
