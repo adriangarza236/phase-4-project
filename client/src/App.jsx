@@ -74,6 +74,11 @@ function App() {
   }
 
 
+  function deleteSong(id) {
+    const updatedSongs = songs.filter(song => song.id !== id)
+    setSongs(updatedSongs)
+  }
+
 
   return (
     <>
@@ -83,7 +88,7 @@ function App() {
           <Route path="/playlist-form" element={<PlaylistForm />} />
           <Route path="/playlists" element={<Playlists playlists={playlists} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
           <Route path="/song-form" element={<SongForm />} />
-          <Route path="/songs" element={<Songs songs={songs} />} />
+          <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
         </Routes>
     </>
   )
