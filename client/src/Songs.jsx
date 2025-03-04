@@ -1,11 +1,10 @@
 import React from 'react'
-import { useState, useEffect } from "react";
+import SongCard from './SongCard';
 
-const Songs = ({ songs }) => {
+const Songs = ({ songs, deleteSong }) => {
 
 
 
-// console.log(songs.playlist_songs.vibe)
 
   return (
     <div>
@@ -14,7 +13,8 @@ const Songs = ({ songs }) => {
         {songs.length > 0 ? (
           songs.map((song) => (
             <li key={song.id}>
-              {song.title} - {song.artist} - <img src={song.album_cover} alt="Album Cover" />
+            <SongCard song={song} />
+            <button onClick={() => deleteSong(song.id)}>Delete song :(</button>
             </li>
           ))
         ) : (

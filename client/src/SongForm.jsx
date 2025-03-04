@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import { useEffect, useState } from 'react'
 import React from 'react'
+
 
 const SongForm = () => {
   const initialValues = {
@@ -45,9 +45,10 @@ const SongForm = () => {
     onSubmit: handleSubmit
   })
 
+
   return (
     <div>
-    <h1>This DO be the song form.....stoooopid ahhhhhhhh song form</h1>
+    <h1>Add a song! (～￣▽￣)～</h1>
     <form onSubmit={formik.handleSubmit}>
       <div>
         <label>
