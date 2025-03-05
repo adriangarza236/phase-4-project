@@ -78,8 +78,6 @@ function App() {
     setPlaylists(updatedPlaylists)
   }
 
-
-
   const addPlaylistSong = playlistSong => {
     addPlaylistSongtoPlaylist(playlistSong)
     addPlaylistSongtoSong(playlistSong)
@@ -103,9 +101,6 @@ function App() {
     setSongs(updatedSongs)
   }
 
-
-  
-
   const addPlaylistSongtoPlaylist = playlistSong => {
     const playlist = playlists.find(playlist => playlist.id === playlistSong.playlist_id)
     let updatedPlaylistSongs = [...playlist.playlist_songs, playlistSong]
@@ -124,6 +119,14 @@ function App() {
     setPlaylists(updatedPlaylists)
   }
 
+  const deleteSong = (id) => {
+    fetch('/api/songs/' + id, { method: "DELETE" })
+      .then(response => response.json())
+      .then(() => {
+        const updatedSongs = songs.filter(song => song.id !== id);
+        setSongs(updatedSongs);
+      });
+  }
 
   return (
     <>
@@ -133,7 +136,7 @@ function App() {
           <Route path="/playlist-form" element={<PlaylistForm addPlaylist={addPlaylist}/>} />
           <Route path="/playlists" element={<Playlists playlists={playlists} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
           <Route path="/song-form" element={<SongForm />} />
-          <Route path="/songs" element={<Songs songs={songs}/>} />
+          <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
         </Routes>
     </>
   )
