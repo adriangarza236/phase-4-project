@@ -31,10 +31,6 @@ function App() {
     setPlaylists([...playlists, playlist])
   }
 
-  const addSong = song => {
-    setSongs([...songs, song])
-  }
-
   
   const deletePlaylistSong = playlistSong => {
     deletePlaylistSongForSong(playlistSong)
@@ -123,14 +119,13 @@ function App() {
     setPlaylists(updatedPlaylists)
   }
 
-  const deleteSong = (id) => {
-    fetch('/api/songs/' + id, { method: "DELETE" })
-      .then(response => response.json())
-      .then(() => {
-        const updatedSongs = songs.filter(song => song.id !== id);
-        setSongs(updatedSongs);
-      });
+  
+  const deleteSong = song => {
+    const sg =songs.find(sg => sg.id === song.id)
+    let updatedSongs =songs.filter(s => s.id != sg.id)
+    setSongs(updatedSongs)
   }
+
 
   return (
     <>
@@ -139,7 +134,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/playlist-form" element={<PlaylistForm addPlaylist={addPlaylist}/>} />
           <Route path="/playlists" element={<Playlists playlists={playlists} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
-          <Route path="/song-form" element={<SongForm addSong={addSong}/>} />
+          <Route path="/song-form" element={<SongForm />} />
           <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
         </Routes>
     </>

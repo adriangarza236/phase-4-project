@@ -1,9 +1,7 @@
 import React from 'react'
 import SongCard from './SongCard';
 
-const Songs = ({ songs, deleteSong }) => {
-
-
+const Songs = ({ songs, deleteSong}) => {
 
 
   return (
@@ -13,8 +11,7 @@ const Songs = ({ songs, deleteSong }) => {
         {songs.length > 0 ? (
           songs.map((song) => (
             <li key={song.id}>
-            <SongCard song={song} />
-            <button onClick={() => deleteSong(song.id)}>Delete song :(</button>
+            <SongCard song={song} deleteSong={deleteSong}/>
             </li>
           ))
         ) : (
