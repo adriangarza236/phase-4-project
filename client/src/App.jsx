@@ -47,27 +47,19 @@ function App() {
     setPlaylistSongs([...playlistSongs, playlistSong])
   }
 
+  const updatePlaylistSong = updatedPlaylistSong => {
+    setPlaylistSongs(playlistSongs.map(ps => ps.id === updatedPlaylistSong.id ? updatedPlaylistSong : ps));
+  }
+
   
   const deletePlaylistSong = playlistSong => {
     deletePlaylistSongForSong(playlistSong)
   }
 
   const deletePlaylistSongForSong = playlistSong => {
-    const song = songs.find(song => song.id === playlistSong.song_id)
-    let updatedPlaylistSong = song.playlist_songs.filter(ps => ps.id !== playlistSong.id)
-    const updatedSong = {
-      ...song, 
-      playlist_song: updatedPlaylistSong
-    }
-    const updatedSongs = songs.map(song => {
-      if(song.id === updatedSong.id) {
-        return updatedSong
-      } else {
-        return song
-      }
-    })
-    setSongs(updatedSongs)
-    updatedPlaylists(song)
+    const updatedPlaylistSongs = playlistSongs.filter(ps => ps.id !== playlistSong.id)
+    setPlaylistSongs(updatedPlaylistSongs)
+    updatedPlaylists(updatedPlaylistSongs)
     }
   
   const updatedPlaylists = song => {
@@ -150,7 +142,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/playlist-form" element={<PlaylistForm addPlaylist={addPlaylist}/>} />
-          <Route path="/playlists" element={<Playlists playlistSongs={playlistSongs} playlists={playlists} songs={songs} addSong={addSong} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
+          <Route path="/playlists" element={<Playlists playlistSongs={playlistSongs} playlists={playlists} songs={songs} addSong={addSong} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong} updatePlaylistSong={updatePlaylistSong}/>} />
           <Route path="/song-form" element={<SongForm addSong={addSong}/>} />
           <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
         </Routes>

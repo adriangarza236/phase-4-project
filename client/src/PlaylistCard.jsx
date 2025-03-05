@@ -3,8 +3,7 @@ import PlaylistEditForm from './PlaylistEditForm'
 import PlaylistSongCreateForm from './PlaylistSongCreateForm'
 import AddSongToPlaylistForm from './AddSongToPlaylistForm'
 
-
-const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlaylist, addPlaylistSong, songs, playlistSongs }) => {
+const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlaylist, addPlaylistSong, songs, playlistSongs, updatePlaylistSong }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [isVibe, setIsVibe] = useState(false)
   const [isSong, setISong] = useState(false)
@@ -17,11 +16,11 @@ const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlayli
     setIsVibe(!isVibe)
   }
 
-  const handleRemoveSong = async (e, playlist_song) => {
+  const handleRemoveSong = async (e, playlistSong) => {
     e.preventDefault()
-    if (playlist_song) {
-      await fetch('/api/playlist_song/' + playlist_song.id, { method: "DELETE" })
-      deletePlaylistSong(playlist_song)
+    if (playlistSong) {
+      await fetch('/api/playlist_song/' + playlistSong.id, { method: "DELETE" })
+      deletePlaylistSong(playlistSong)
     }
   }
 
@@ -65,7 +64,7 @@ const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlayli
         {playlistSongs
           .filter((playlistSong) => playlistSong.playlist_id === playlist.id)
           .map((playlistSong) => {
-            const vibe = playlistSong.vibe ? playlistSong.vibe : <PlaylistSongCreateForm playlistSong={playlistSong} toggleIsVibe={toggleIsVibe} playlist={playlist} addPlaylistSong={handleVibeSubmit} />
+            const vibe = playlistSong.vibe ? playlistSong.vibe : <PlaylistSongCreateForm playlistSong={playlistSong} toggleIsVibe={toggleIsVibe} playlist={playlist} addPlaylistSong={handleVibeSubmit} updatePlaylistSong={updatePlaylistSong} />
             return (
               <li key={playlistSong.id}>
                 {playlistSong.song.title} - {playlistSong.song.artist} - {vibe} - <img src={playlistSong.song.album_cover} alt="Album Cover" />

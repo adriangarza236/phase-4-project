@@ -1,13 +1,12 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import React from 'react'
+import { useState } from 'react'
 
-const PlaylistSongCreateForm = ({ playlist, playlistSong, addPlaylistSong, toggleIsVibe }) => {
-  const [selectedVibe, setSelectedVibe] = useState('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
+const PlaylistSongCreateForm = ({ playlist, playlistSong, addPlaylistSong, toggleIsVibe, updatePlaylistSong }) => {
 
   const initialValues = {
-    vibe: playlistSong.vibe,
+    vibe: playlistSong.vibe || "Happy",
     playlist_id: playlistSong.playlist_id,
     song_id: playlistSong.song_id
   }
@@ -25,9 +24,7 @@ const PlaylistSongCreateForm = ({ playlist, playlistSong, addPlaylistSong, toggl
     const url = playlistSong ? `/api/playlist_song/${playlistSong.id}` : "/api/playlist_songs"
     const resp = await fetch(url, options)
     const data = await resp.json()
-    addPlaylistSong(data)
-    toggleIsVibe()
-    setIsSubmitted(true) // Update the state to trigger a re-render
+    updatePlaylistSong(data)
   }
 
   const formik = useFormik({

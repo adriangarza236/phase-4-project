@@ -1,9 +1,9 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 
 const AddSongToPlaylistForm = ({ playlist, songs, onSongAdded }) => {
-    const [selectedSongId, setSelectedSongId] = useState('')
+    const [selectedSongId, setSelectedSongId] = useState(songs.length > 0 ? songs[0].id : '')
 
   const handleAddSongToPlaylist = async () => {
     const options = {
@@ -23,13 +23,11 @@ const AddSongToPlaylistForm = ({ playlist, songs, onSongAdded }) => {
     setSelectedSongId(event.target.value)
   }
 
-
-
   return (
     <div className="AddSongToPlaylist">
     <h3>Select a Song to Add</h3>
 
-    <select id="songSelect" onChange={handleSongSelect}>
+    <select id="songSelect" onChange={handleSongSelect} value={selectedSongId}>
       {songs.map(song => (
         <option key={song.id} value={song.id}>{song.title} - {song.artist}</option>
       ))}
