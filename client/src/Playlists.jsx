@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PlaylistCard from './PlaylistCard';
 
-const Playlists = ({ playlists, deletePlaylistSong, deletePlaylist, editPlaylist }) => {
+const Playlists = ({ playlists, deletePlaylistSong, deletePlaylist, editPlaylist, addPlaylistSong }) => {
 
 
-  const playlistsCards = playlists.map(playlist => <PlaylistCard key={playlist.id} playlist={playlist} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong} />);
+  const playlistsCards = playlists.map(playlist => <PlaylistCard key={playlist.id} playlist={playlist} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong} />);
 
   return (
     <div>

@@ -83,6 +83,51 @@ function App() {
     setSongs(updatedSongs)
   }
 
+  const addPlaylistSong = playlistSong => {
+    addPlaylistSongtoPlaylist(playlistSong)
+    addPlaylistSongtoSong(playlistSong)
+  }
+
+  const addPlaylistSongtoSong = playlistSong => {
+    const song = songs.find(song => song.id === playlistSong.song_id)
+    let updatedPlaylistSongs = [...song.playlist_songs, playlistSong]
+
+    const updatedSong = {
+      ...song,
+      playlist_song: updatedPlaylistSongs
+    }
+    const updatedSongs = songs.map(song => {
+      if(song.id === updatedSong.id) {
+        return updatedSong
+      } else {
+        return song
+      }
+    })
+    setSongs(updatedSongs)
+  }
+
+
+  
+
+  const addPlaylistSongtoPlaylist = playlistSong => {
+    const playlist = playlists.find(playlist => playlist.id === playlistSong.playlist_id)
+    let updatedPlaylistSongs = [...playlist.playlist_songs, playlistSong]
+
+    const updatedPlaylist = {
+      ...playlist,
+      playlist_song: updatedPlaylistSongs
+    }
+    const updatedPlaylists = playlists.map(playlist => {
+      if(playlist.id === updatedPlaylist.id) {
+        return updatedPlaylist
+      } else {
+        return playlist
+      }
+    })
+    console.log(updatedPlaylists)
+    setPlaylists(updatedPlaylists)
+  }
+
 
   return (
     <>

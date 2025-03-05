@@ -10,16 +10,17 @@ const PlaylistSongCreateForm = ({ playlist, playlist_song, addPlaylistSong }) =>
   }
 
   const validationSchema = yup.object({
-    vibe: yup.number().required().integer().min(1).max(6)
+    vibe: yup.string().required()
   })
 
   const handleSubmit = async values => {
     const options = {
-      method: "POST",
+      method: playlist_song ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values)
     }
-    const resp = await fetch("/api/playlists", options)
+    const url = playlist_song ? `/api/playlist_song/${playlist_song.id}` : "/api/playlist_songs"
+    const resp = await fetch(url, options)
     const data = await resp.json()
     addPlaylistSong(data)
   }
@@ -35,12 +36,12 @@ const PlaylistSongCreateForm = ({ playlist, playlist_song, addPlaylistSong }) =>
     <form onSubmit={formik.handleSubmit}>
         <label>Vibe: </label>
         <select name="vibe" id="vibe" value={formik.values.vibe} onChange={formik.handleChange}>
-            <option value={"Happy"}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
-            <option value={6}>6</option>
+            <option value={"Happy"}>Happy</option>
+            <option value={"Sad"}>Sad</option>
+            <option value={"Upset"}>Upset</option>
+            <option value={"Angsty"}>Angsty</option>
+            <option value={"Angry"}>Angry</option>
+            <option value={"Energetic"}>Energetic</option>
         </select>
         <input type="submit" value="Submit" />
     </form>
