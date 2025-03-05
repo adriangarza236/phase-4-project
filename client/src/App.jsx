@@ -26,6 +26,7 @@ function App() {
       .then((data) => setSongs(data)) 
   }, []);
 
+
   const addPlaylist = playlist => {
     setPlaylists([...playlists, playlist])
   }
@@ -120,7 +121,6 @@ function App() {
         return playlist
       }
     })
-    console.log(updatedPlaylists)
     setPlaylists(updatedPlaylists)
   }
 

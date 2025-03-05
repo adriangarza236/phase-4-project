@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 import React from 'react'
 
-const PlaylistSongCreateForm = ({ playlist, playlist_song, addPlaylistSong }) => {
+const PlaylistSongCreateForm = ({ playlist, playlist_song, addPlaylistSong, toggleIsVibe }) => {
   const initialValues = {
     vibe: 3,
     playlist_id: playlist.id,
@@ -23,6 +23,7 @@ const PlaylistSongCreateForm = ({ playlist, playlist_song, addPlaylistSong }) =>
     const resp = await fetch(url, options)
     const data = await resp.json()
     addPlaylistSong(data)
+    toggleIsVibe()
   }
 
   const formik = useFormik({
