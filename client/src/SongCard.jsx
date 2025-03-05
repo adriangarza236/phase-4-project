@@ -20,7 +20,7 @@ const SongCard = ({song, deleteSong}) => {
       <h2>{song.title}</h2>
       <h2>{song.artist}</h2>
       <h3>{song.album}</h3>
-      <button onClick={handleDelete}>Heyo</button>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   )
 }
