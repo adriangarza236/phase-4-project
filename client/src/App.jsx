@@ -78,10 +78,6 @@ function App() {
   }
 
 
-  function deleteSong(id) {
-    const updatedSongs = songs.filter(song => song.id !== id)
-    setSongs(updatedSongs)
-  }
 
   const addPlaylistSong = playlistSong => {
     addPlaylistSongtoPlaylist(playlistSong)
@@ -137,7 +133,7 @@ function App() {
           <Route path="/playlist-form" element={<PlaylistForm addPlaylist={addPlaylist}/>} />
           <Route path="/playlists" element={<Playlists playlists={playlists} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
           <Route path="/song-form" element={<SongForm />} />
-          <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
+          <Route path="/songs" element={<Songs songs={songs}/>} />
         </Routes>
     </>
   )
