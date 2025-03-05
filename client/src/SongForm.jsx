@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import React from 'react'
 
 
-const SongForm = () => {
+const SongForm = ({ addSong }) => {
   const initialValues = {
     album_cover: "",
     title: "", 
@@ -18,24 +18,16 @@ const SongForm = () => {
     album: yup.string().required("An Album is required")
   })
 
-  const handleSubmit = (values) => {
-    const newSong = {
-      album_cover: values.album_cover,
-      title: values.title,
-      artist: values.artist,
-      album: values.album
-    }
-
-    fetch("/api/songs", {
+  const handleSubmit = async values => {
+    const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newSong)
-    })
-    .then((response) => response.json())
-    .then((addedSong) => {
-      console.log("Song added:", addedSong);
-      formik.resetForm();
-    })
+      body: JSON.stringify(values)
+    }
+    const resp = await fetch("/api/songs", options)
+    const data = await resp.json()
+    addSong(data)
+    formik.resetForm()
   }
 
   const formik = useFormik({
@@ -95,7 +87,7 @@ const SongForm = () => {
         </label>
         <p style={{color: "red"}}>{formik.errors.album}</p>
       </div>
-      <button type="submit">Add song!</button>
+      <input type="submit" value="Create Song" />
     </form>
     </div>
   );

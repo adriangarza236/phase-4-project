@@ -31,6 +31,10 @@ function App() {
     setPlaylists([...playlists, playlist])
   }
 
+  const addSong = song => {
+    setSongs([...songs, song])
+  }
+
   
   const deletePlaylistSong = playlistSong => {
     deletePlaylistSongForSong(playlistSong)
@@ -135,7 +139,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/playlist-form" element={<PlaylistForm addPlaylist={addPlaylist}/>} />
           <Route path="/playlists" element={<Playlists playlists={playlists} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
-          <Route path="/song-form" element={<SongForm />} />
+          <Route path="/song-form" element={<SongForm addSong={addSong}/>} />
           <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
         </Routes>
     </>
