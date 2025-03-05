@@ -1,12 +1,15 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 
-const PlaylistSongCreateForm = ({ playlist, playlist_song, addPlaylistSong, toggleIsVibe }) => {
+const PlaylistSongCreateForm = ({ playlist, playlistSong, addPlaylistSong, toggleIsVibe }) => {
+  const [selectedVibe, setSelectedVibe] = useState('')
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
   const initialValues = {
-    vibe: 3,
-    playlist_id: playlist.id,
-    song_id: playlist_song.song_id
+    vibe: playlistSong.vibe,
+    playlist_id: playlistSong.playlist_id,
+    song_id: playlistSong.song_id
   }
 
   const validationSchema = yup.object({
@@ -15,15 +18,16 @@ const PlaylistSongCreateForm = ({ playlist, playlist_song, addPlaylistSong, togg
 
   const handleSubmit = async values => {
     const options = {
-      method: playlist_song ? "PATCH" : "POST",
+      method: playlistSong ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(values)
     }
-    const url = playlist_song ? `/api/playlist_song/${playlist_song.id}` : "/api/playlist_songs"
+    const url = playlistSong ? `/api/playlist_song/${playlistSong.id}` : "/api/playlist_songs"
     const resp = await fetch(url, options)
     const data = await resp.json()
     addPlaylistSong(data)
     toggleIsVibe()
+    setIsSubmitted(true) // Update the state to trigger a re-render
   }
 
   const formik = useFormik({

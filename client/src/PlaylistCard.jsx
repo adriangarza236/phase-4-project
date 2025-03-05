@@ -1,66 +1,81 @@
 import React, { useState } from 'react'
 import PlaylistEditForm from './PlaylistEditForm'
 import PlaylistSongCreateForm from './PlaylistSongCreateForm'
+import AddSongToPlaylistForm from './AddSongToPlaylistForm'
 
-const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlaylist, addPlaylistSong }) => {
-    const [isEditing, setIsEditing] = useState(false)
-    const [isVibe, setIsVibe] = useState(false)
 
-    const toggleIsVibe = e => {
-        if (e) {
-            e.preventDefault()
-        }
-        setIsVibe(!isVibe)
+const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlaylist, addPlaylistSong, songs, playlistSongs }) => {
+  const [isEditing, setIsEditing] = useState(false)
+  const [isVibe, setIsVibe] = useState(false)
+  const [isSong, setISong] = useState(false)
+    console.log(playlistSongs)
+    
+  const toggleIsVibe = e => {
+    if (e) {
+      e.preventDefault()
     }
+    setIsVibe(!isVibe)
+  }
 
-    const handleRemoveSong = async (e, playlist_song) => {
-        e.preventDefault()
-        
-        if (playlist_song) {
-            await fetch('/api/playlist_song/' + playlist_song.id, { method: "DELETE" })
-            deletePlaylistSong(playlist_song)
-        }
+  const handleRemoveSong = async (e, playlist_song) => {
+    e.preventDefault()
+    if (playlist_song) {
+      await fetch('/api/playlist_song/' + playlist_song.id, { method: "DELETE" })
+      deletePlaylistSong(playlist_song)
     }
+  }
 
-    const handleDeletePlaylist = async (e) => {
-        e.preventDefault()
-
-        if (playlist) {
-            await fetch('/api/playlist/' + playlist.id, { method: "DELETE" })
-            deletePlaylist(playlist)
-        }
+  const handleDeletePlaylist = async (e) => {
+    e.preventDefault()
+    if (playlist) {
+      await fetch('/api/playlist/' + playlist.id, { method: "DELETE" })
+      deletePlaylist(playlist)
     }
+  }
 
-    const handleEdit = async (e) => {
-        if (e) e.preventDefault()
-        setIsEditing(!isEditing)
-    }
+  const handleEdit = async (e) => {
+    if (e) e.preventDefault()
+    setIsEditing(!isEditing)
+  }
 
-    const handleVibeSubmit = (newPlaylistSong) => {
-        addPlaylistSong(newPlaylistSong)
-        setIsVibe(false)
-    }
+  const handleVibeSubmit = (newPlaylistSong) => {
+    addPlaylistSong(newPlaylistSong)
+    setIsVibe(false)
+  }
 
-    return (
-        <div>
-            <h3>{playlist.name}</h3>
-            <button onClick={handleDeletePlaylist} >Delete</button>
-            <button onClick={handleEdit} >Edit</button>
-            {isEditing && <PlaylistEditForm playlist={playlist} editPlaylist={editPlaylist} handleEdit={handleEdit} />}
-            <ul>
-                {playlist.songs.map((song) => {
-                    const playlist_song = playlist.playlist_songs.find(ps => ps.song_id === song.id)
-                    const vibe = playlist_song.vibe ? playlist_song.vibe : <PlaylistSongCreateForm toggleIsVibe={toggleIsVibe} playlist={playlist} addPlaylistSong={handleVibeSubmit} playlist_song={playlist_song}/>
-                    return (
-                        <li key={song.id}>
-                            {song.title} - {song.artist} - {vibe} - <img src={song.album_cover} alt="Album Cover" />
-                            <button onClick={(e) => handleRemoveSong(e, playlist_song)} >Remove</button>
-                        </li>
-                    )
-                })}
-            </ul>
-        </div>
-    )
+  const handleAddSong = async (e) => {
+    if (e) e.preventDefault()
+    setISong(!isSong)
+  }
+
+  const handleSongAdded = (newPlaylistSong) => {
+    addPlaylistSong(newPlaylistSong)
+    setISong(false)
+  }
+
+  return (
+    <div>
+      <h3>{playlist.name}</h3>
+      <button onClick={handleAddSong}>Add Song</button>
+      {isSong && <AddSongToPlaylistForm playlist={playlist} songs={songs} onSongAdded={handleSongAdded} />}
+      <button onClick={handleDeletePlaylist}>Delete</button>
+      <button onClick={handleEdit}>Edit</button>
+      {isEditing && <PlaylistEditForm playlist={playlist} editPlaylist={editPlaylist} handleEdit={handleEdit} />}
+      <ul>
+        {playlistSongs
+          .filter((playlistSong) => playlistSong.playlist_id === playlist.id)
+          .map((playlistSong) => {
+            const vibe = playlistSong.vibe ? playlistSong.vibe : <PlaylistSongCreateForm playlistSong={playlistSong} toggleIsVibe={toggleIsVibe} playlist={playlist} addPlaylistSong={handleVibeSubmit} />
+            return (
+              <li key={playlistSong.id}>
+                {playlistSong.song.title} - {playlistSong.song.artist} - {vibe} - <img src={playlistSong.song.album_cover} alt="Album Cover" />
+                <button onClick={(e) => handleRemoveSong(e, playlistSong)}>Remove</button>
+              </li>
+            )
+          })}
+      </ul>
+    </div>
+  )
 }
 
 export default PlaylistCard

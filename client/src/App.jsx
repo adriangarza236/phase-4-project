@@ -8,9 +8,11 @@ import Playlists from './Playlists'
 import Songs from './Songs'
 
 
+
 function App() {
   const [songs, setSongs] = useState([]); 
   const [playlists, setPlaylists] = useState([]); 
+  const [playlistSongs, setPlaylistSongs] = useState([]);
 
 
 
@@ -26,6 +28,12 @@ function App() {
       .then((data) => setSongs(data)) 
   }, []);
 
+  useEffect(() => {
+    fetch("/api/playlist_songs")
+      .then((response) => response.json())
+      .then((data) => setPlaylistSongs(data))
+  }, [])
+
 
   const addPlaylist = playlist => {
     setPlaylists([...playlists, playlist])
@@ -33,6 +41,10 @@ function App() {
 
   const addSong = song => {
     setSongs([...songs, song])
+  }
+
+  const addPlaylistSongtoState = playlistSong => {
+    setPlaylistSongs([...playlistSongs, playlistSong])
   }
 
   
@@ -85,6 +97,7 @@ function App() {
   const addPlaylistSong = playlistSong => {
     addPlaylistSongtoPlaylist(playlistSong)
     addPlaylistSongtoSong(playlistSong)
+    addPlaylistSongtoState(playlistSong)
   }
 
   const addPlaylistSongtoSong = playlistSong => {
@@ -93,7 +106,7 @@ function App() {
 
     const updatedSong = {
       ...song,
-      playlist_song: updatedPlaylistSongs
+      playlist_songs: updatedPlaylistSongs
     }
     const updatedSongs = songs.map(song => {
       if(song.id === updatedSong.id) {
@@ -111,7 +124,7 @@ function App() {
 
     const updatedPlaylist = {
       ...playlist,
-      playlist_song: updatedPlaylistSongs
+      playlist_songs: updatedPlaylistSongs
     }
     const updatedPlaylists = playlists.map(playlist => {
       if(playlist.id === updatedPlaylist.id) {
@@ -137,7 +150,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/playlist-form" element={<PlaylistForm addPlaylist={addPlaylist}/>} />
-          <Route path="/playlists" element={<Playlists playlists={playlists} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
+          <Route path="/playlists" element={<Playlists playlistSongs={playlistSongs} playlists={playlists} songs={songs} addSong={addSong} addPlaylistSong={addPlaylistSong} editPlaylist={editPlaylist} deletePlaylist={deletePlaylist} deletePlaylistSong={deletePlaylistSong}/>} />
           <Route path="/song-form" element={<SongForm addSong={addSong}/>} />
           <Route path="/songs" element={<Songs songs={songs} deleteSong={deleteSong}/>} />
         </Routes>

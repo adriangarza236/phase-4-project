@@ -30,3 +30,15 @@ TODO:
     []b. finish building out the rest of the components 
     []c. Setup form validation with formik and yup
     []d. start managing global state. 
+
+
+TODO:
+Bugs!!
+
+    []1. All the drop down menus 1st select do not work
+    2. when removing song from playlist it will remove all songs no matter the playlist unless refresh
+    3. when deleting song from song list, need to also delete from playlist songs
+    3. rerendering needed for
+        a. add song to playlist
+        b. add vibe to playlist song
+        
