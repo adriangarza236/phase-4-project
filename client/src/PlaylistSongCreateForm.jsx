@@ -1,6 +1,27 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import React from 'react'
+import { MenuItem, Select, Typography } from '@mui/material'
+import { styled } from '@mui/system'
+
+const TextContainer = styled('div')({
+  backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+  padding: '10px',
+  borderRadius: '10px',
+  color: '#ffffff', // White text color
+});
+
+const CustomSelect = styled(Select)(({ theme }) => ({
+  backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+  color: '#ffffff', // White text color
+  '& .MuiSelect-icon': {
+    color: '#ffffff', // White icon color
+  },
+  '& .MuiMenuItem-root': {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background for menu items
+    color: '#ffffff', // White text color for menu items
+  },
+}));
 
 const PlaylistSongCreateForm = ({ playlistSong, updatePlaylistSong }) => {
 
@@ -35,16 +56,18 @@ const PlaylistSongCreateForm = ({ playlistSong, updatePlaylistSong }) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-        <label>Vibe: </label>
-        <select name="vibe" id="vibe" value={formik.values.vibe} onChange={formik.handleChange}>
-            <option value={"Happy"}>Happy</option>
-            <option value={"Sad"}>Sad</option>
-            <option value={"Upset"}>Upset</option>
-            <option value={"Angsty"}>Angsty</option>
-            <option value={"Angry"}>Angry</option>
-            <option value={"Energetic"}>Energetic</option>
-        </select>
+      <TextContainer>
+        <Typography variant="body2">Vibe:</Typography>
+        <CustomSelect name="vibe" id="vibe" value={formik.values.vibe} onChange={formik.handleChange}>
+          <MenuItem value="Happy">Happy</MenuItem>
+          <MenuItem value="Sad">Sad</MenuItem>
+          <MenuItem value="Upset">Upset</MenuItem>
+          <MenuItem value="Angsty">Angsty</MenuItem>
+          <MenuItem value="Angry">Angry</MenuItem>
+          <MenuItem value="Energetic">Energetic</MenuItem>
+        </CustomSelect>
         <input type="submit" value="Submit" />
+      </TextContainer>
     </form>
   )
 }

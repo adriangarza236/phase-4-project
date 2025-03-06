@@ -1,7 +1,57 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import React from 'react'
+import { TextField, Button, Typography, Paper } from '@mui/material'
+import { styled } from '@mui/system'
 
+const PageContainer = styled('div')({
+  backgroundColor: '#2e2e2e', // Darker grey background color
+  minHeight: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '20px',
+});
+
+const FormContainer = styled(Paper)(({ theme }) => ({
+  backgroundColor: '#8c8b8b', // Lighter grey background color
+  padding: '20px',
+  borderRadius: '10px',
+  color: '#ffffff', // White text color
+}));
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: '20px',
+  '& .MuiInputBase-input': {
+    color: '#000000', // Paper text color
+  },
+  '& .MuiInputLabel-root': {
+    color: '#000000', // Paper text color
+  },
+  '& .MuiOutlinedInput-root': {
+    backgroundColor: '#ffffff', // Paper background color
+    '& fieldset': {
+      borderColor: '#ffffff', // Paper border color
+    },
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary.main, // Primary color on hover
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: theme.palette.primary.main, // Primary color when focused
+    },
+  },
+}));
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  marginTop: '20px',
+  padding: '10px 20px',
+  borderRadius: '20px',
+  backgroundColor: theme.palette.primary.main,
+  color: '#ffffff',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}));
 
 const SongForm = ({ addSong }) => {
   const initialValues = {
@@ -37,59 +87,55 @@ const SongForm = ({ addSong }) => {
     onSubmit: handleSubmit
   })
 
-
   return (
-    <div>
-    <h1>Add a song! (～￣▽￣)～</h1>
-    <form onSubmit={formik.handleSubmit}>
-      <div>
-        <label>
-          Album Cover:
-          <input 
-            type="text" 
+    <PageContainer>
+      <FormContainer elevation={3}>
+        <Typography variant="h4" gutterBottom>Add a song! 😎🎵</Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <CustomTextField
+            label="Album Cover"
+            variant="outlined"
+            fullWidth
             name="album_cover"
             value={formik.values.album_cover}
-            onChange={formik.handleChange} 
+            onChange={formik.handleChange}
+            error={formik.touched.album_cover && Boolean(formik.errors.album_cover)}
+            helperText={formik.touched.album_cover && formik.errors.album_cover}
           />
-        </label>
-        <p style={{color: "red"}}>{formik.errors.album_cover}</p>
-      </div>
-      <div>
-        <label>
-          Title:
-          <input 
-            type="text" 
+          <CustomTextField
+            label="Title"
+            variant="outlined"
+            fullWidth
             name="title"
-            value={formik.values.title} 
-            onChange={formik.handleChange}/>
-        </label>
-        <p style={{color: "red"}}>{formik.errors.title}</p>
-      </div>
-      <div>
-        <label>
-          Artist:
-          <input 
-            type="text" 
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            error={formik.touched.title && Boolean(formik.errors.title)}
+            helperText={formik.touched.title && formik.errors.title}
+          />
+          <CustomTextField
+            label="Artist"
+            variant="outlined"
+            fullWidth
             name="artist"
-            value={formik.values.artist} 
-            onChange={formik.handleChange}/>
-        </label>
-        <p style={{color: "red"}}>{formik.errors.artist}</p>
-      </div>
-      <div>
-        <label>
-          Album:
-          <input 
-            type="text" 
+            value={formik.values.artist}
+            onChange={formik.handleChange}
+            error={formik.touched.artist && Boolean(formik.errors.artist)}
+            helperText={formik.touched.artist && formik.errors.artist}
+          />
+          <CustomTextField
+            label="Album"
+            variant="outlined"
+            fullWidth
             name="album"
-            value={formik.values.album} 
-            onChange={formik.handleChange}/>
-        </label>
-        <p style={{color: "red"}}>{formik.errors.album}</p>
-      </div>
-      <input type="submit" value="Create Song" />
-    </form>
-    </div>
+            value={formik.values.album}
+            onChange={formik.handleChange}
+            error={formik.touched.album && Boolean(formik.errors.album)}
+            helperText={formik.touched.album && formik.errors.album}
+          />
+          <CustomButton type="submit" variant="contained" fullWidth>Create Song</CustomButton>
+        </form>
+      </FormContainer>
+    </PageContainer>
   );
 };
 

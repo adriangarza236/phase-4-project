@@ -1,9 +1,21 @@
 import React from 'react'
 import { useState } from 'react'
+import { Button } from '@mui/material'
+import { styled } from '@mui/system'
 
+const CustomButton = styled(Button)(({ theme }) => ({
+  margin: '10px',
+  padding: '10px 20px',
+  borderRadius: '20px',
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.text.primary,
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.main,
+  },
+}))
 
 const AddSongToPlaylistForm = ({ playlist, songs, onSongAdded }) => {
-    const [selectedSongId, setSelectedSongId] = useState(songs.length > 0 ? songs[0].id : '')
+  const [selectedSongId, setSelectedSongId] = useState(songs.length > 0 ? songs[0].id : '')
 
   const handleAddSongToPlaylist = async () => {
     const options = {
@@ -25,16 +37,15 @@ const AddSongToPlaylistForm = ({ playlist, songs, onSongAdded }) => {
 
   return (
     <div className="AddSongToPlaylist">
-    <h3>Select a Song to Add</h3>
+      <h3>Select a Song to Add</h3>
+      <select id="songSelect" onChange={handleSongSelect} value={selectedSongId}>
+        {songs.map(song => (
+          <option key={song.id} value={song.id}>{song.title} - {song.artist}</option>
+        ))}
+      </select>
+      <CustomButton onClick={handleAddSongToPlaylist}>Add to Playlist</CustomButton>
+    </div>
+  )
+}
 
-    <select id="songSelect" onChange={handleSongSelect} value={selectedSongId}>
-      {songs.map(song => (
-        <option key={song.id} value={song.id}>{song.title} - {song.artist}</option>
-      ))}
-    </select>
-
-    <button onClick={handleAddSongToPlaylist} >Add to Playlist</button>
-  </div>
-)}
-
-export default AddSongToPlaylistForm;
+export default AddSongToPlaylistForm
