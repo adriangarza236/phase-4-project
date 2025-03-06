@@ -10,6 +10,7 @@ import Songs from './Songs'
 
 
 function App() {
+
   const [songs, setSongs] = useState([]); 
   const [playlists, setPlaylists] = useState([]); 
   const [playlistSongs, setPlaylistSongs] = useState([]);
@@ -35,104 +36,109 @@ function App() {
   }, [])
 
 
-  const addPlaylist = playlist => {
-    setPlaylists([...playlists, playlist])
-  }
-
-  const addSong = song => {
-    setSongs([...songs, song])
-  }
-
-  const addPlaylistSongtoState = playlistSong => {
-    setPlaylistSongs([...playlistSongs, playlistSong])
-  }
-
-  const updatePlaylistSong = updatedPlaylistSong => {
-    setPlaylistSongs(playlistSongs.map(ps => ps.id === updatedPlaylistSong.id ? updatedPlaylistSong : ps));
-  }
-
   
-  const deletePlaylistSong = playlistSong => {
-    deletePlaylistSongForSong(playlistSong)
-  }
-
-  const deletePlaylistSongForSong = playlistSong => {
-    const updatedPlaylistSongs = playlistSongs.filter(ps => ps.id !== playlistSong.id)
-    setPlaylistSongs(updatedPlaylistSongs)
-    updatedPlaylists(updatedPlaylistSongs)
-    }
-  
-  const updatedPlaylists = song => {
-    const updatedPlaylists = playlists.map(pl => {
-        if (pl.songs.some(s => s.id === song.id)) {
-            return {
-                ...pl,
-                songs: pl.songs.filter(s => s.id !== song.id)
-            }
-        }
-        return pl
-    })
-    setPlaylists(updatedPlaylists)
+/* Song */
+const addSong = song => {
+  setSongs([...songs, song])
 }
 
-  const deletePlaylist = playlist => {
-    const pl = playlists.find(pl => pl.id === playlist.id)
-    let updatedPlaylists = playlists.filter(p => p.id != pl.id)
-    setPlaylists(updatedPlaylists)
-  }
+const deleteSong = song => {
+  const sg =songs.find(sg => sg.id === song.id)
+  let updatedSongs =songs.filter(s => s.id != sg.id)
+  setSongs(updatedSongs)
+}
 
-  const editPlaylist = updtplaylist => {
-    const updatedPlaylists = playlists.map(playlist => updtplaylist.id === playlist.id ? updtplaylist : playlist)
-    setPlaylists(updatedPlaylists)
-  }
 
-  const addPlaylistSong = playlistSong => {
-    addPlaylistSongtoPlaylist(playlistSong)
-    addPlaylistSongtoSong(playlistSong)
-    addPlaylistSongtoState(playlistSong)
-  }
 
-  const addPlaylistSongtoSong = playlistSong => {
-    const song = songs.find(song => song.id === playlistSong.song_id)
-    let updatedPlaylistSongs = [...song.playlist_songs, playlistSong]
+/* Playlists */
+const addPlaylist = playlist => {
+  setPlaylists([...playlists, playlist])
+}
 
-    const updatedSong = {
-      ...song,
-      playlist_songs: updatedPlaylistSongs
-    }
-    const updatedSongs = songs.map(song => {
-      if(song.id === updatedSong.id) {
-        return updatedSong
-      } else {
-        return song
+const editPlaylist = updtplaylist => {
+  const updatedPlaylists = playlists.map(playlist => updtplaylist.id === playlist.id ? updtplaylist : playlist)
+  setPlaylists(updatedPlaylists)
+}
+
+const deletePlaylist = playlist => {
+  const pl = playlists.find(pl => pl.id === playlist.id)
+  let updatedPlaylists = playlists.filter(p => p.id != pl.id)
+  setPlaylists(updatedPlaylists)
+}
+
+const updatedPlaylists = song => {
+  const updatedPlaylists = playlists.map(pl => {
+      if (pl.songs.some(s => s.id === song.id)) {
+          return {
+              ...pl,
+              songs: pl.songs.filter(s => s.id !== song.id)
+          }
       }
-    })
-    setSongs(updatedSongs)
-  }
+      return pl
+  })
+  setPlaylists(updatedPlaylists)
+}
 
-  const addPlaylistSongtoPlaylist = playlistSong => {
-    const playlist = playlists.find(playlist => playlist.id === playlistSong.playlist_id)
-    let updatedPlaylistSongs = [...playlist.playlist_songs, playlistSong]
 
-    const updatedPlaylist = {
-      ...playlist,
-      playlist_songs: updatedPlaylistSongs
-    }
-    const updatedPlaylists = playlists.map(playlist => {
-      if(playlist.id === updatedPlaylist.id) {
-        return updatedPlaylist
-      } else {
-        return playlist
-      }
-    })
-    setPlaylists(updatedPlaylists)
-  }
+/* Playlists Songs */
+const addPlaylistSong = playlistSong => {
+  addPlaylistSongtoPlaylist(playlistSong)
+  addPlaylistSongtoSong(playlistSong)
+  addPlaylistSongtoState(playlistSong)
+}
 
+const deletePlaylistSong = playlistSong => {
+  deletePlaylistSongForSong(playlistSong)
+}
+
+const updatePlaylistSong = updatedPlaylistSong => {
+  setPlaylistSongs(playlistSongs.map(ps => ps.id === updatedPlaylistSong.id ? updatedPlaylistSong : ps));
+}
+
+const addPlaylistSongtoState = playlistSong => {
+  setPlaylistSongs([...playlistSongs, playlistSong])
+}
+
+const addPlaylistSongtoSong = playlistSong => {
+  const song = songs.find(song => song.id === playlistSong.song_id)
+  let updatedPlaylistSongs = [...song.playlist_songs, playlistSong]
   
-  const deleteSong = song => {
-    const sg =songs.find(sg => sg.id === song.id)
-    let updatedSongs =songs.filter(s => s.id != sg.id)
-    setSongs(updatedSongs)
+  const updatedSong = {
+    ...song,
+    playlist_songs: updatedPlaylistSongs
+  }
+  const updatedSongs = songs.map(song => {
+    if(song.id === updatedSong.id) {
+      return updatedSong
+    } else {
+      return song
+    }
+  })
+  setSongs(updatedSongs)
+}
+
+const addPlaylistSongtoPlaylist = playlistSong => {
+  const playlist = playlists.find(playlist => playlist.id === playlistSong.playlist_id)
+  let updatedPlaylistSongs = [...playlist.playlist_songs, playlistSong]
+  
+  const updatedPlaylist = {
+    ...playlist,
+    playlist_songs: updatedPlaylistSongs
+  }
+  const updatedPlaylists = playlists.map(playlist => {
+    if(playlist.id === updatedPlaylist.id) {
+      return updatedPlaylist
+    } else {
+      return playlist
+    }
+  })
+  setPlaylists(updatedPlaylists)
+}
+
+const deletePlaylistSongForSong = playlistSong => {
+  const updatedPlaylistSongs = playlistSongs.filter(ps => ps.id !== playlistSong.id)
+  setPlaylistSongs(updatedPlaylistSongs)
+  updatedPlaylists(updatedPlaylistSongs)
   }
 
 

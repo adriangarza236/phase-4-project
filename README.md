@@ -11,9 +11,9 @@ TODO:
     [x]f. test end points with postman
 
 2. FrontEnd 
-    []a. set up app.jsx
+    [x]a. set up app.jsx
     [x]b. set up components
-    []c. set yp forms with formik and yup
+    [x]c. set yp forms with formik and yup
     [x]d. set up fetch requests
     [x]e. set up routing 
 

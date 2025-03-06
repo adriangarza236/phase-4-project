@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 
 const AddSongToPlaylistForm = ({ playlist, songs, onSongAdded }) => {
@@ -34,7 +34,6 @@ const AddSongToPlaylistForm = ({ playlist, songs, onSongAdded }) => {
     </select>
 
     <button onClick={handleAddSongToPlaylist} >Add to Playlist</button>
-    <button>Cancel</button>
   </div>
 )}
 
