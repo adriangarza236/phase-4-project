@@ -1,6 +1,8 @@
+from flask import render_template
 from flask import request, make_response
 from config import app, db
 from models import *
+
 
 #PLAYLIST ROUTES
 @app.route("/api/playlists", methods=["GET", "POST"])
@@ -141,6 +143,9 @@ def playlist_song(id):
       204
     )
 
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("index.html")
 
 if __name__ == "__main__":
   app.run(port=5555, debug=True)
