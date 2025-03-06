@@ -1,9 +1,8 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import React from 'react'
-import { useState } from 'react'
 
-const PlaylistSongCreateForm = ({ playlist, playlistSong, addPlaylistSong, toggleIsVibe, updatePlaylistSong }) => {
+const PlaylistSongCreateForm = ({ playlistSong, updatePlaylistSong }) => {
 
   const initialValues = {
     vibe: playlistSong.vibe || "Happy",

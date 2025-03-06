@@ -5,17 +5,8 @@ import AddSongToPlaylistForm from './AddSongToPlaylistForm'
 
 const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlaylist, addPlaylistSong, songs, playlistSongs, updatePlaylistSong }) => {
   const [isEditing, setIsEditing] = useState(false)
-  const [isVibe, setIsVibe] = useState(false)
   const [isSong, setISong] = useState(false)
-    console.log(playlistSongs)
-    
-  const toggleIsVibe = e => {
-    if (e) {
-      e.preventDefault()
-    }
-    setIsVibe(!isVibe)
-  }
-
+  
   const handleRemoveSong = async (e, playlistSong) => {
     e.preventDefault()
     if (playlistSong) {
@@ -23,7 +14,7 @@ const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlayli
       deletePlaylistSong(playlistSong)
     }
   }
-
+  
   const handleDeletePlaylist = async (e) => {
     e.preventDefault()
     if (playlist) {
@@ -31,15 +22,10 @@ const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlayli
       deletePlaylist(playlist)
     }
   }
-
+  
   const handleEdit = async (e) => {
     if (e) e.preventDefault()
     setIsEditing(!isEditing)
-  }
-
-  const handleVibeSubmit = (newPlaylistSong) => {
-    addPlaylistSong(newPlaylistSong)
-    setIsVibe(false)
   }
 
   const handleAddSong = async (e) => {
@@ -64,7 +50,7 @@ const PlaylistCard = ({ playlist, deletePlaylistSong, deletePlaylist, editPlayli
         {playlistSongs
           .filter((playlistSong) => playlistSong.playlist_id === playlist.id)
           .map((playlistSong) => {
-            const vibe = playlistSong.vibe ? playlistSong.vibe : <PlaylistSongCreateForm playlistSong={playlistSong} toggleIsVibe={toggleIsVibe} playlist={playlist} addPlaylistSong={handleVibeSubmit} updatePlaylistSong={updatePlaylistSong} />
+            const vibe = playlistSong.vibe ? playlistSong.vibe : <PlaylistSongCreateForm playlistSong={playlistSong} updatePlaylistSong={updatePlaylistSong} />
             return (
               <li key={playlistSong.id}>
                 {playlistSong.song.title} - {playlistSong.song.artist} - {vibe} - <img src={playlistSong.song.album_cover} alt="Album Cover" />

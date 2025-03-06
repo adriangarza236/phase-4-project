@@ -49,7 +49,7 @@ const PlaylistForm = ({ addPlaylist }) => {
         <input type="submit" value="Create Playlist" />
       </form>
     </div>
-  );
-};
+  )
+}
 
 export default PlaylistForm;

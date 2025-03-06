@@ -3,22 +3,19 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 
 function PlaylistEditForm({ playlist, handleEdit, editPlaylist }) {
-
-
-
-const initialValues = {
-    name: ""
-  }
-
+  
+  const initialValues = {
+      name: ""
+    }
+  
   const validationSchema = yup.object({
     name: yup.string().required("Playlist must have a name").min(1)
   })
-
+  
   const handleSubmit = (values) => {
     const newPlaylist = {
         name: values.name
     }
-
     fetch("/api/playlist/" + playlist.id, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -31,10 +28,7 @@ const initialValues = {
       formik.resetForm();
     })
   }
-
-
-
-
+  
   const formik = useFormik({
     initialValues,
     validationSchema, 
@@ -62,3 +56,9 @@ const initialValues = {
 };
 
 export default PlaylistEditForm;
+
+
+
+
+
+
